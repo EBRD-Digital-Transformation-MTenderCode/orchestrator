@@ -13,8 +13,10 @@ import com.procurement.orchestrator.domain.model.address.region.RegionDetails
 import com.procurement.orchestrator.domain.model.award.AwardId
 import com.procurement.orchestrator.domain.model.award.AwardStatus
 import com.procurement.orchestrator.domain.model.award.AwardStatusDetails
+import com.procurement.orchestrator.domain.model.document.Document
 import com.procurement.orchestrator.domain.model.document.DocumentId
 import com.procurement.orchestrator.domain.model.document.DocumentType
+import com.procurement.orchestrator.domain.model.document.Documents
 import com.procurement.orchestrator.domain.model.identifier.Identifier
 import com.procurement.orchestrator.domain.model.lot.LotId
 import com.procurement.orchestrator.domain.model.measure.Amount
@@ -84,7 +86,7 @@ abstract class GetRelatedAwardByIdsAction :
 
             @JsonInclude(JsonInclude.Include.NON_NULL)
             @param:JsonProperty("relatedBid") @field:JsonProperty("relatedBid") val relatedBid: String?
-        ) : Serializable  {
+        ) : Serializable {
             data class Value(
                 @JsonInclude(JsonInclude.Include.NON_NULL)
                 @param:JsonProperty("amount") @field:JsonProperty("amount") val amount: Amount?,
@@ -104,7 +106,7 @@ abstract class GetRelatedAwardByIdsAction :
                 @JsonInclude(JsonInclude.Include.NON_EMPTY)
                 @param:JsonProperty("persones") @field:JsonProperty("persones") val persones: List<Persone>?,
                 @param:JsonProperty("details") @field:JsonProperty("details") val details: Details
-            ) : Serializable  {
+            ) : Serializable {
                 data class Identifier(
                     @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                     @param:JsonProperty("legalName") @field:JsonProperty("legalName") val legalName: String,
@@ -129,12 +131,12 @@ abstract class GetRelatedAwardByIdsAction :
                     @JsonInclude(JsonInclude.Include.NON_NULL)
                     @param:JsonProperty("postalCode") @field:JsonProperty("postalCode") val postalCode: String?,
                     @param:JsonProperty("addressDetails") @field:JsonProperty("addressDetails") val addressDetails: AddressDetails
-                ) : Serializable  {
+                ) : Serializable {
                     data class AddressDetails(
                         @param:JsonProperty("country") @field:JsonProperty("country") val country: Country,
                         @param:JsonProperty("region") @field:JsonProperty("region") val region: Region,
                         @param:JsonProperty("locality") @field:JsonProperty("locality") val locality: Locality
-                    ) : Serializable  {
+                    ) : Serializable {
                         data class Country(
                             @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                             @param:JsonProperty("description") @field:JsonProperty("description") val description: String,
@@ -178,7 +180,7 @@ abstract class GetRelatedAwardByIdsAction :
                     @param:JsonProperty("name") @field:JsonProperty("name") val name: String,
                     @param:JsonProperty("identifier") @field:JsonProperty("identifier") val identifier: Identifier,
                     @param:JsonProperty("businessFunctions") @field:JsonProperty("businessFunctions") val businessFunctions: List<BusinessFunction>
-                ) : Serializable  {
+                ) : Serializable {
                     data class Identifier(
                         @param:JsonProperty("scheme") @field:JsonProperty("scheme") val scheme: String,
                         @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
@@ -195,14 +197,14 @@ abstract class GetRelatedAwardByIdsAction :
 
                         @JsonInclude(JsonInclude.Include.NON_EMPTY)
                         @param:JsonProperty("documents") @field:JsonProperty("documents") val documents: List<Document>?
-                    ) : Serializable  {
+                    ) : Serializable {
                         data class Period(
                             @param:JsonProperty("startDate") @field:JsonProperty("startDate") val startDate: LocalDateTime
                         ) : Serializable
 
                         data class Document(
-                            @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
-                            @param:JsonProperty("documentType") @field:JsonProperty("documentType") val documentType: String,
+                            @param:JsonProperty("id") @field:JsonProperty("id") val id: DocumentId,
+                            @param:JsonProperty("documentType") @field:JsonProperty("documentType") val documentType: DocumentType,
                             @param:JsonProperty("title") @field:JsonProperty("title") val title: String,
 
                             @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -227,7 +229,7 @@ abstract class GetRelatedAwardByIdsAction :
 
                     @JsonInclude(JsonInclude.Include.NON_NULL)
                     @param:JsonProperty("legalForm") @field:JsonProperty("legalForm") val legalForm: LegalForm?
-                ) : Serializable  {
+                ) : Serializable {
                     data class MainEconomicActivity(
                         @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                         @param:JsonProperty("scheme") @field:JsonProperty("scheme") val scheme: String,
@@ -244,12 +246,12 @@ abstract class GetRelatedAwardByIdsAction :
                         @JsonInclude(JsonInclude.Include.NON_NULL)
                         @param:JsonProperty("url") @field:JsonProperty("url") val url: String?,
                         @param:JsonProperty("permitDetails") @field:JsonProperty("permitDetails") val permitDetails: PermitDetails
-                    ) : Serializable  {
+                    ) : Serializable {
                         data class PermitDetails(
                             @param:JsonProperty("issuedBy") @field:JsonProperty("issuedBy") val issuedBy: IssuedBy,
                             @param:JsonProperty("issuedThought") @field:JsonProperty("issuedThought") val issuedThought: IssuedThought,
                             @param:JsonProperty("validityPeriod") @field:JsonProperty("validityPeriod") val validityPeriod: ValidityPeriod
-                        ) : Serializable  {
+                        ) : Serializable {
                             data class IssuedBy(
                                 @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                                 @param:JsonProperty("name") @field:JsonProperty("name") val name: String
@@ -278,19 +280,19 @@ abstract class GetRelatedAwardByIdsAction :
 
                         @JsonInclude(JsonInclude.Include.NON_EMPTY)
                         @param:JsonProperty("additionalAccountIdentifiers") @field:JsonProperty("additionalAccountIdentifiers") val additionalAccountIdentifiers: List<AdditionalAccountIdentifier>?
-                    ) : Serializable  {
+                    ) : Serializable {
                         data class Address(
                             @param:JsonProperty("streetAddress") @field:JsonProperty("streetAddress") val streetAddress: String,
 
                             @JsonInclude(JsonInclude.Include.NON_NULL)
                             @param:JsonProperty("postalCode") @field:JsonProperty("postalCode") val postalCode: String?,
                             @param:JsonProperty("addressDetails") @field:JsonProperty("addressDetails") val addressDetails: AddressDetails
-                        ) : Serializable  {
+                        ) : Serializable {
                             data class AddressDetails(
                                 @param:JsonProperty("country") @field:JsonProperty("country") val country: Country,
                                 @param:JsonProperty("region") @field:JsonProperty("region") val region: Region,
                                 @param:JsonProperty("locality") @field:JsonProperty("locality") val locality: Locality
-                            ) : Serializable  {
+                            ) : Serializable {
                                 data class Country(
                                     @param:JsonProperty("id") @field:JsonProperty("id") val id: String,
                                     @param:JsonProperty("description") @field:JsonProperty("description") val description: String,
@@ -355,155 +357,41 @@ abstract class GetRelatedAwardByIdsAction :
     }
 }
 
-fun GetRelatedAwardByIdsAction.Result.convertToParties(): Parties =
-    awards.flatMap { award ->
-        award.suppliers.map { supplier ->
-            com.procurement.orchestrator.domain.model.party.Party(
-                id = supplier.id,
-                name = supplier.name,
-                identifier = supplier.identifier.let { identifier ->
-                    Identifier(
-                        id = identifier.id,
-                        legalName = identifier.legalName,
-                        scheme = identifier.scheme,
-                        uri = identifier.uri
-                    )
-                },
-                additionalIdentifiers = supplier.additionalIdentifiers?.map { identifier ->
-                    Identifier(
-                        id = identifier.id,
-                        legalName = identifier.legalName,
-                        scheme = identifier.scheme,
-                        uri = identifier.uri
-                    )
-                }
-                    .let { com.procurement.orchestrator.domain.model.identifier.Identifiers(it.orEmpty()) },
-                address = supplier.address.let { address ->
-                    Address(
-                        streetAddress = address.streetAddress,
-                        postalCode = address.postalCode,
-                        addressDetails = address.addressDetails.let { addressDetails ->
-                            AddressDetails(
-                                country = addressDetails.country.let { country ->
-                                    CountryDetails(
-                                        id = country.id,
-                                        description = country.description,
-                                        scheme = country.scheme,
-                                        uri = country.uri
-                                    )
-                                },
-                                region = addressDetails.region.let { region ->
-                                    RegionDetails(
-                                        id = region.id,
-                                        description = region.description,
-                                        scheme = region.scheme,
-                                        uri = region.uri
-                                    )
-                                },
-                                locality = addressDetails.locality.let { locality ->
-                                    LocalityDetails(
-                                        id = locality.id,
-                                        description = locality.description,
-                                        scheme = locality.scheme,
-                                        uri = locality.uri
-                                    )
-                                }
-                            )
-                        }
-                    )
-                },
-                contactPoint = supplier.contactPoint.let { contactPoint ->
-                    com.procurement.orchestrator.domain.model.organization.ContactPoint(
-                        name = contactPoint.name,
-                        email = contactPoint.email,
-                        telephone = contactPoint.telephone,
-                        faxNumber = contactPoint.faxNumber,
-                        url = contactPoint.url
-                    )
-                },
-                persons = supplier.persones?.map { persone ->
-                    com.procurement.orchestrator.domain.model.person.Person(
-                        title = persone.title,
-                        id = persone.id,
-                        name = persone.name,
-                        identifier = persone.identifier.let { identifier ->
+fun GetRelatedAwardByIdsAction.Result.convertToParties(): Parties = awards
+    .flatMap { award ->
+        award.suppliers
+            .map { supplier ->
+                com.procurement.orchestrator.domain.model.party.Party(
+                    id = supplier.id,
+                    name = supplier.name,
+                    identifier = supplier.identifier
+                        .let { identifier ->
                             Identifier(
-                                scheme = identifier.scheme,
                                 id = identifier.id,
+                                legalName = identifier.legalName,
+                                scheme = identifier.scheme,
                                 uri = identifier.uri
                             )
                         },
-                        businessFunctions = persone.businessFunctions.map { businessFunction ->
-                            BusinessFunction(
-                                id = businessFunction.id,
-                                type = businessFunction.type,
-                                jobTitle = businessFunction.jobTitle,
-                                period = Period(
-                                    startDate = businessFunction.period.startDate
-                                )
+                    additionalIdentifiers = supplier.additionalIdentifiers
+                        ?.map { identifier ->
+                            Identifier(
+                                id = identifier.id,
+                                legalName = identifier.legalName,
+                                scheme = identifier.scheme,
+                                uri = identifier.uri
                             )
                         }
-                            .let { com.procurement.orchestrator.domain.model.organization.person.BusinessFunctions(it) }
-                    )
-                }
-                    .let { com.procurement.orchestrator.domain.model.person.Persons(it.orEmpty()) },
-                details = supplier.details.let { details ->
-                    Details(
-                        typeOfSupplier = details.typeOfSupplier,
-                        mainEconomicActivities = details.mainEconomicActivities?.map { mainEconomicActivity ->
-                            MainEconomicActivity(
-                                id = mainEconomicActivity.id,
-                                scheme = mainEconomicActivity.scheme,
-                                description = mainEconomicActivity.description,
-                                uri = mainEconomicActivity.uri
-                            )
-                        }
-                            .let {
-                                MainEconomicActivities(
-                                    it.orEmpty()
-                                )
-                            },
-                        scale = details.scale,
-                        permits = details.permits?.map { permit ->
-                            Permit(
-                                id = permit.id,
-                                scheme = permit.scheme,
-                                url = permit.url,
-                                permitDetails = permit.permitDetails.let { permitDetails ->
-                                    PermitDetails(
-                                        issuedBy = permitDetails.issuedBy.let { issuedBy ->
-                                            Issue(
-                                                id = issuedBy.id,
-                                                name = issuedBy.name
-                                            )
-                                        },
-                                        issuedThought = permitDetails.issuedThought.let { issuedThought ->
-                                            Issue(
-                                                id = issuedThought.id,
-                                                name = issuedThought.name
-                                            )
-                                        },
-                                        validityPeriod = permitDetails.validityPeriod.let { validityPeriod ->
-                                            Period(
-                                                startDate = validityPeriod.startDate,
-                                                endDate = validityPeriod.endDate
-                                            )
-                                        }
-                                    )
-                                }
-                            )
-                        }
-                            .let { Permits(it.orEmpty()) },
-                        bankAccounts = details.bankAccounts?.map { bankAccount ->
-                            BankAccount(
-                                description = bankAccount.description,
-                                bankName = bankAccount.bankName,
-                                address = bankAccount.address.let { address ->
-                                    Address(
-                                        streetAddress = address.streetAddress,
-                                        postalCode = address.postalCode,
-                                        addressDetails = AddressDetails(
-                                            country = address.addressDetails.country.let { country ->
+                        .let { com.procurement.orchestrator.domain.model.identifier.Identifiers(it.orEmpty()) },
+                    address = supplier.address.let { address ->
+                        Address(
+                            streetAddress = address.streetAddress,
+                            postalCode = address.postalCode,
+                            addressDetails = address.addressDetails
+                                .let { addressDetails ->
+                                    AddressDetails(
+                                        country = addressDetails.country
+                                            .let { country ->
                                                 CountryDetails(
                                                     id = country.id,
                                                     description = country.description,
@@ -511,7 +399,8 @@ fun GetRelatedAwardByIdsAction.Result.convertToParties(): Parties =
                                                     uri = country.uri
                                                 )
                                             },
-                                            region = address.addressDetails.region.let { region ->
+                                        region = addressDetails.region
+                                            .let { region ->
                                                 RegionDetails(
                                                     id = region.id,
                                                     description = region.description,
@@ -519,7 +408,8 @@ fun GetRelatedAwardByIdsAction.Result.convertToParties(): Parties =
                                                     uri = region.uri
                                                 )
                                             },
-                                            locality = address.addressDetails.locality.let { locality ->
+                                        locality = addressDetails.locality
+                                            .let { locality ->
                                                 LocalityDetails(
                                                     id = locality.id,
                                                     description = locality.description,
@@ -527,46 +417,200 @@ fun GetRelatedAwardByIdsAction.Result.convertToParties(): Parties =
                                                     uri = locality.uri
                                                 )
                                             }
-                                        )
-                                    )
-                                },
-                                identifier = bankAccount.identifier.let { identifier ->
-                                    AccountIdentifier(
-                                        scheme = identifier.scheme,
-                                        id = identifier.id
-                                    )
-                                },
-                                accountIdentification = bankAccount.accountIdentification.let { accountIdentification ->
-                                    AccountIdentifier(
-                                        scheme = accountIdentification.scheme,
-                                        id = accountIdentification.id
-                                    )
-                                },
-                                additionalAccountIdentifiers = bankAccount.additionalAccountIdentifiers?.map { additionalAccountIdentifier ->
-                                    AccountIdentifier(
-                                        scheme = additionalAccountIdentifier.scheme,
-                                        id = additionalAccountIdentifier.id
                                     )
                                 }
+                        )
+                    },
+                    contactPoint = supplier.contactPoint
+                        .let { contactPoint ->
+                            com.procurement.orchestrator.domain.model.organization.ContactPoint(
+                                name = contactPoint.name,
+                                email = contactPoint.email,
+                                telephone = contactPoint.telephone,
+                                faxNumber = contactPoint.faxNumber,
+                                url = contactPoint.url
+                            )
+                        },
+                    persons = supplier.persones
+                        ?.map { persone ->
+                            com.procurement.orchestrator.domain.model.person.Person(
+                                title = persone.title,
+                                id = persone.id,
+                                name = persone.name,
+                                identifier = persone.identifier
+                                    .let { identifier ->
+                                        Identifier(
+                                            scheme = identifier.scheme,
+                                            id = identifier.id,
+                                            uri = identifier.uri
+                                        )
+                                    },
+                                businessFunctions = persone.businessFunctions
+                                    .map { businessFunction ->
+                                        BusinessFunction(
+                                            id = businessFunction.id,
+                                            type = businessFunction.type,
+                                            jobTitle = businessFunction.jobTitle,
+                                            period = Period(
+                                                startDate = businessFunction.period.startDate
+                                            ),
+                                            documents = businessFunction.documents
+                                                ?.map { document ->
+                                                    Document(
+                                                        id = document.id,
+                                                        documentType = document.documentType,
+                                                        title = document.title,
+                                                        description = document.description
+                                                    )
+                                                }
+                                                .orEmpty()
+                                                .let { Documents(it) }
+                                        )
+                                    }
                                     .let {
-                                        AccountIdentifiers(it.orEmpty())
+                                        com.procurement.orchestrator.domain.model.organization.person.BusinessFunctions(
+                                            it
+                                        )
                                     }
                             )
                         }
-                            .let { BankAccounts(it.orEmpty()) },
-                        legalForm = details.legalForm?.let { legalForm ->
-                            LegalForm(
-                                scheme = legalForm.scheme,
-                                id = legalForm.id,
-                                description = legalForm.description,
-                                uri = legalForm.uri
+                        .let { com.procurement.orchestrator.domain.model.person.Persons(it.orEmpty()) },
+                    details = supplier.details
+                        .let { details ->
+                            Details(
+                                typeOfSupplier = details.typeOfSupplier,
+                                mainEconomicActivities = details.mainEconomicActivities
+                                    ?.map { mainEconomicActivity ->
+                                        MainEconomicActivity(
+                                            id = mainEconomicActivity.id,
+                                            scheme = mainEconomicActivity.scheme,
+                                            description = mainEconomicActivity.description,
+                                            uri = mainEconomicActivity.uri
+                                        )
+                                    }
+                                    .let {
+                                        MainEconomicActivities(
+                                            it.orEmpty()
+                                        )
+                                    },
+                                scale = details.scale,
+                                permits = details.permits
+                                    ?.map { permit ->
+                                        Permit(
+                                            id = permit.id,
+                                            scheme = permit.scheme,
+                                            url = permit.url,
+                                            permitDetails = permit.permitDetails
+                                                .let { permitDetails ->
+                                                    PermitDetails(
+                                                        issuedBy = permitDetails.issuedBy
+                                                            .let { issuedBy ->
+                                                                Issue(
+                                                                    id = issuedBy.id,
+                                                                    name = issuedBy.name
+                                                                )
+                                                            },
+                                                        issuedThought = permitDetails.issuedThought
+                                                            .let { issuedThought ->
+                                                                Issue(
+                                                                    id = issuedThought.id,
+                                                                    name = issuedThought.name
+                                                                )
+                                                            },
+                                                        validityPeriod = permitDetails.validityPeriod
+                                                            .let { validityPeriod ->
+                                                                Period(
+                                                                    startDate = validityPeriod.startDate,
+                                                                    endDate = validityPeriod.endDate
+                                                                )
+                                                            }
+                                                    )
+                                                }
+                                        )
+                                    }
+                                    .let { Permits(it.orEmpty()) },
+                                bankAccounts = details.bankAccounts
+                                    ?.map { bankAccount ->
+                                        BankAccount(
+                                            description = bankAccount.description,
+                                            bankName = bankAccount.bankName,
+                                            address = bankAccount.address
+                                                .let { address ->
+                                                    Address(
+                                                        streetAddress = address.streetAddress,
+                                                        postalCode = address.postalCode,
+                                                        addressDetails = AddressDetails(
+                                                            country = address.addressDetails.country
+                                                                .let { country ->
+                                                                    CountryDetails(
+                                                                        id = country.id,
+                                                                        description = country.description,
+                                                                        scheme = country.scheme,
+                                                                        uri = country.uri
+                                                                    )
+                                                                },
+                                                            region = address.addressDetails.region
+                                                                .let { region ->
+                                                                    RegionDetails(
+                                                                        id = region.id,
+                                                                        description = region.description,
+                                                                        scheme = region.scheme,
+                                                                        uri = region.uri
+                                                                    )
+                                                                },
+                                                            locality = address.addressDetails.locality
+                                                                .let { locality ->
+                                                                    LocalityDetails(
+                                                                        id = locality.id,
+                                                                        description = locality.description,
+                                                                        scheme = locality.scheme,
+                                                                        uri = locality.uri
+                                                                    )
+                                                                }
+                                                        )
+                                                    )
+                                                },
+                                            identifier = bankAccount.identifier
+                                                .let { identifier ->
+                                                    AccountIdentifier(
+                                                        scheme = identifier.scheme,
+                                                        id = identifier.id
+                                                    )
+                                                },
+                                            accountIdentification = bankAccount.accountIdentification
+                                                .let { accountIdentification ->
+                                                    AccountIdentifier(
+                                                        scheme = accountIdentification.scheme,
+                                                        id = accountIdentification.id
+                                                    )
+                                                },
+                                            additionalAccountIdentifiers = bankAccount.additionalAccountIdentifiers
+                                                ?.map { additionalAccountIdentifier ->
+                                                    AccountIdentifier(
+                                                        scheme = additionalAccountIdentifier.scheme,
+                                                        id = additionalAccountIdentifier.id
+                                                    )
+                                                }
+                                                .let {
+                                                    AccountIdentifiers(it.orEmpty())
+                                                }
+                                        )
+                                    }
+                                    .let { BankAccounts(it.orEmpty()) },
+                                legalForm = details.legalForm
+                                    ?.let { legalForm ->
+                                        LegalForm(
+                                            scheme = legalForm.scheme,
+                                            id = legalForm.id,
+                                            description = legalForm.description,
+                                            uri = legalForm.uri
+                                        )
+                                    }
                             )
-                        }
-                    )
-                },
-                roles = PartyRoles(listOf(PartyRole.SUPPLIER, PartyRole.PAYEE))
-            )
-        }
+                        },
+                    roles = PartyRoles(listOf(PartyRole.SUPPLIER, PartyRole.PAYEE))
+                )
+            }
     }
-        .let { Parties(it) }
+    .let { Parties(it) }
 
