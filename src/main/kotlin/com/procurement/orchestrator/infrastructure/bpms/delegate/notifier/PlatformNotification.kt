@@ -169,12 +169,12 @@ object PlatformNotification {
 
         data class AC(
             @field:JsonProperty("id") @param:JsonProperty("id") val id: ContractId,
-            @field:JsonProperty("token") @param:JsonProperty("token") val token: Token
+            @field:JsonProperty("X-TOKEN") @param:JsonProperty("X-TOKEN") val token: Token
         )
 
         data class PO(
             @field:JsonProperty("id") @param:JsonProperty("id") val id: ContractId,
-            @field:JsonProperty("token") @param:JsonProperty("token") val token: Token
+            @field:JsonProperty("X-TOKEN") @param:JsonProperty("X-TOKEN") val token: Token
         )
     }
 }
