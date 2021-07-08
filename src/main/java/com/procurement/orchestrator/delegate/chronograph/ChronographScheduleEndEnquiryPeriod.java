@@ -51,7 +51,11 @@ public class ChronographScheduleEndEnquiryPeriod implements JavaDelegate {
         final Context contextChronograph = new Context();
         final String uuid = UUIDs.timeBased().toString();
         contextChronograph.setCpid(context.getCpid());
-        contextChronograph.setOcid(context.getOcidCn());
+
+        if(context.getOcidCn() != null)
+            contextChronograph.setOcid(context.getOcidCn());
+        else
+            contextChronograph.setOcid(context.getOcid());
         contextChronograph.setProcessType("enquiryPeriodEnd");
         contextChronograph.setOperationId(uuid);
         contextChronograph.setRequestId(uuid);
