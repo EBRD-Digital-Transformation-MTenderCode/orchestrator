@@ -1216,6 +1216,8 @@ public class ProcessServiceImpl implements ProcessService {
             tenderNode.replace("procurementMethodDetails", tenderResponseNode.get("procurementMethodDetails"));
             tenderNode.replace("eligibilityCriteria", tenderResponseNode.get("eligibilityCriteria"));
             tenderNode.replace("procuringEntity", tenderResponseNode.get("procuringEntity"));
+            tenderNode.replace("mainProcurementCategory", tenderResponseNode.get("mainProcurementCategory"));
+            tenderNode.replace("additionalProcurementCategories", tenderResponseNode.get("additionalProcurementCategories"));
             return jsonData;
         } catch (Exception e) {
             terminateProcess(processId, e.getMessage());
