@@ -145,6 +145,7 @@ data class Tender(
         status = src.status or status,
         statusDetails = src.statusDetails or statusDetails,
         date = src.date or date,
+        otherCriteria = otherCriteria updateBy src.otherCriteria,
         criteria = criteria updateBy src.criteria,
         conversions = conversions updateBy src.conversions,
         items = items updateBy src.items,
@@ -169,6 +170,10 @@ data class Tender(
         electronicAuctions = electronicAuctions updateBy src.electronicAuctions,
         procedureOutsourcing = procedureOutsourcing updateBy src.procedureOutsourcing,
         value = src.value or value,
+        targets = targets updateBy src.targets,
+        classification = classification updateBy src.classification,
+        procurementMethod = src.procurementMethod or procurementMethod,
+        procurementMethodDetails = src.procurementMethodDetails or procurementMethodDetails,
         mainProcurementCategory = src.mainProcurementCategory or mainProcurementCategory,
         additionalProcurementCategories = additionalProcurementCategories combineBy src.additionalProcurementCategories
     )
