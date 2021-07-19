@@ -57,6 +57,7 @@ public class ChronographRescheduleEndEnquiryPeriod implements JavaDelegate {
         contextChronograph.setProcessType("enquiryPeriodEnd");
         contextChronograph.setOperationId(uuid);
         contextChronograph.setRequestId(uuid);
+        contextChronograph.setOcid(context.getOcid());
         contextChronograph.setIsAuction(context.getIsAuction());
 
         final JsonNode jsonData = jsonUtil.toJsonNode(entity.getResponseData());
