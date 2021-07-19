@@ -65,7 +65,7 @@ public class ChronographRescheduleEndEnquiryPeriod implements JavaDelegate {
         final LocalDateTime newLaunchTime = dateUtil.stringToLocal(
             processService.getEnquiryPeriodEndDate(jsonData, processId));
 
-        String metadata = jsonUtil.toJson(contextChronograph);
+        final String metadata = jsonUtil.toJson(contextChronograph);
         final ScheduleTask cancelTask = new ScheduleTask(
             ActionType.CANCEL,
             context.getCpid(),
