@@ -79,10 +79,7 @@ public class AccessCreateRequestForEvaluationPanels implements JavaDelegate {
 
     private JsonNode addCriteria(final JsonNode jsonData, final JsonNode criteriaData, final String processId) {
         try {
-            ArrayNode criteriaNode = jsonUtil.createArrayNode();
-            criteriaNode.add(criteriaData.get("criteria")); // wrap criteria object(!) from response into array
-
-            ((ObjectNode) jsonData).replace("criteria", criteriaNode);
+            ((ObjectNode) jsonData).replace("criteria", criteriaData.get("criteria"));
             return jsonData;
         } catch (Exception e) {
             processService.terminateProcess(processId, e.getMessage());
