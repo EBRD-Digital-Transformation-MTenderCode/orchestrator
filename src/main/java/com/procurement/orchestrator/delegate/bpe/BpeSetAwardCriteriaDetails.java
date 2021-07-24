@@ -60,10 +60,12 @@ public class BpeSetAwardCriteriaDetails implements JavaDelegate {
             switch (awardCriteria) {
                 case PRICE_ONLY:
                     ((ObjectNode) jsonData).replace("awardCriteriaDetails", jsonUtil.toJsonNode(AwardCriteriaDetails.AUTOMATED));
+                    break;
                 case COST_ONLY:
                 case QUALITY_ONLY:
                 case RATED_CRITERIA:
                     ((ObjectNode) jsonData).replace("awardCriteriaDetails", jsonUtil.toJsonNode(AwardCriteriaDetails.MANUAL));
+                    break;
             }
             return jsonData;
         } catch (Exception e) {
