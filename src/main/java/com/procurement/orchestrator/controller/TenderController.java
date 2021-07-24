@@ -125,6 +125,7 @@ public class TenderController extends DoBaseController {
             case TEST_MV:
                 processService.setEnquiryPeriodStartDate(data, startDate, null);
                 processService.setTenderPeriodStartDate(data, processService.getEnquiryPeriodEndDate(data, null), null);
+                break;
 
             case DA:
             case TEST_DA:
