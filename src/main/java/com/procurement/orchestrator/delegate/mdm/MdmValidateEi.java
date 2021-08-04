@@ -2,6 +2,7 @@ package com.procurement.orchestrator.delegate.mdm;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.procurement.orchestrator.domain.Context;
+import com.procurement.orchestrator.domain.dto.command.ResponseDto;
 import com.procurement.orchestrator.domain.entity.OperationStepEntity;
 import com.procurement.orchestrator.rest.MdmRestClient;
 import com.procurement.orchestrator.service.OperationService;
@@ -11,9 +12,8 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-
-import java.util.Objects;
 
 import static com.procurement.orchestrator.domain.commands.MdmCommandType.PROCESS_EI_DATA;
 
@@ -48,21 +48,27 @@ public class MdmValidateEi implements JavaDelegate {
         final Context context = jsonUtil.toObject(Context.class, entity.getContext());
         final String processId = execution.getProcessInstanceId();
         final String taskId = execution.getCurrentActivityId();
-        final JsonNode rqData = processService.getEiData(prevData, processId);
-        final JsonNode commandMessage = processService.getCommandMessage(PROCESS_EI_DATA, context, rqData);
-        if (rqData != null) {
-            JsonNode responseData = processService.processResponse(
-                    mdmRestClient.execute(commandMessage),
-                    context,
-                    processId,
-                    taskId,
-                    commandMessage);
-            if (Objects.nonNull(responseData)) {
-                operationService.saveOperationStep(
-                        execution,
-                        entity,
-                        commandMessage,
-                        processService.setEiData(prevData, responseData, processId));
+        final JsonNode requestData = processService.getEiData(prevData, processId);
+
+        if (requestData != null) {
+            final JsonNode commandMessage = processService.getCommandMessage(PROCESS_EI_DATA, context, requestData);
+            if (LOG.isDebugEnabled())
+                LOG.debug("COMMAND ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(commandMessage));
+
+            final ResponseEntity<ResponseDto> response = mdmRestClient.execute(commandMessage);
+            if (LOG.isDebugEnabled())
+                LOG.debug("RESPONSE FROM SERVICE ({}): '{}'.", context.getOperationId(), jsonUtil.toJson(response.getBody()));
+
+            final JsonNode responseData = processService.processResponse(response, context, processId, taskId, commandMessage);
+            if (LOG.isDebugEnabled())
+                LOG.debug("RESPONSE AFTER PROCESSING ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(responseData));
+
+            if (responseData != null) {
+                final JsonNode step = processService.setEiData(prevData, responseData, processId);
+                if (LOG.isDebugEnabled())
+                    LOG.debug("STEP FOR SAVE ({}): '{}'.", context.getOperationId(), jsonUtil.toJsonOrEmpty(step));
+
+                operationService.saveOperationStep(execution, entity, commandMessage, step);
             }
         }
     }
