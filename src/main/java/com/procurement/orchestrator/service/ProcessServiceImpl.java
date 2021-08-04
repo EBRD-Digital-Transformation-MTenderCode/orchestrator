@@ -1121,6 +1121,7 @@ public class ProcessServiceImpl implements ProcessService {
             mainNode.replace("buyer", jsonData.get("buyer"));
             return mainNode;
         } catch (Exception e) {
+            LOG.error("Error of prepare data for create Ei", e);
             terminateProcess(processId, e.getMessage());
             return null;
         }
